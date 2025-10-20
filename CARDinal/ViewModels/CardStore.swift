@@ -92,4 +92,80 @@ class CardStore: ObservableObject {
         myCard = updatedCard
         saveMyCard()
     }
+
+    // Add sample cards with each material type for testing
+    func addSampleCards() {
+        let sampleCards = [
+            BusinessCard(
+                fullName: "Emma Glass",
+                jobTitle: "Designer",
+                company: "Glass Co",
+                email: "emma@glassco.com",
+                phone: "+1 (555) 111-1111",
+                website: URL(string: "https://glassco.com"),
+                linkedIn: "emmaglass",
+                accentColor: .cyan,
+                material: .glass,
+            ),
+            BusinessCard(
+                fullName: "Neon Nash",
+                jobTitle: "Developer",
+                company: "Neon Inc",
+                email: "neon@neoninc.com",
+                phone: "+1 (555) 222-2222",
+                website: URL(string: "https://neoninc.com"),
+                linkedIn: "neonnash",
+                accentColor: .pink,
+                material: .neon,
+            ),
+            BusinessCard(
+                fullName: "Marcus Metal",
+                jobTitle: "Engineer",
+                company: "Metal Corp",
+                email: "marcus@metalcorp.com",
+                phone: "+1 (555) 333-3333",
+                website: URL(string: "https://metalcorp.com"),
+                linkedIn: "marcusmetal",
+                accentColor: .gray,
+                material: .metal,
+            ),
+            BusinessCard(
+                fullName: "Fiona Frost",
+                jobTitle: "Manager",
+                company: "Frosted LLC",
+                email: "fiona@frosted.com",
+                phone: "+1 (555) 444-4444",
+                website: URL(string: "https://frosted.com"),
+                linkedIn: "fionafrost",
+                accentColor: .blue,
+                material: .frosted,
+            ),
+            BusinessCard(
+                fullName: "Holly Holo",
+                jobTitle: "Artist",
+                company: "Holo Studios",
+                email: "holly@holostudios.com",
+                phone: "+1 (555) 555-5555",
+                website: URL(string: "https://holostudios.com"),
+                linkedIn: "hollyholo",
+                accentColor: .purple,
+                material: .holographic,
+            ),
+            BusinessCard(
+                fullName: "Matt Matte",
+                jobTitle: "Consultant",
+                company: "Matte Co",
+                email: "matt@matteco.com",
+                phone: "+1 (555) 666-6666",
+                website: URL(string: "https://matteco.com"),
+                linkedIn: "mattmatte",
+                accentColor: .indigo,
+                material: .matte,
+            )
+        ]
+
+        for card in sampleCards {
+            addReceivedCard(card)
+        }
+    }
 }

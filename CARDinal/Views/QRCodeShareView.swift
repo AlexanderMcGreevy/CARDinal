@@ -29,9 +29,10 @@ struct QRCodeShareView: View {
                 VStack(spacing: 8) {
                     Text("Share Your Card")
                         .font(.title2.weight(.semibold))
+                        .foregroundStyle(.white)
                     Text("Others can scan this QR code with their camera app to add your card")
                         .font(.footnote)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.gray)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
                 }
@@ -57,7 +58,7 @@ struct QRCodeShareView: View {
                         .frame(width: 280, height: 280)
                         .overlay {
                             Text("QR Code Generation Failed")
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(.white)
                         }
                 }
                 
@@ -69,22 +70,25 @@ struct QRCodeShareView: View {
                             .font(.title3)
                         Text("Point any camera app at the QR code")
                             .font(.subheadline)
+                            .foregroundStyle(.white)
                     }
-                    
+
                     HStack(spacing: 12) {
                         Image(systemName: "app.badge.plus")
                             .foregroundStyle(.green)
                             .font(.title3)
                         Text("Tap the notification to open CARDinal")
                             .font(.subheadline)
+                            .foregroundStyle(.white)
                     }
-                    
+
                     HStack(spacing: 12) {
                         Image(systemName: "person.badge.plus")
                             .foregroundStyle(.purple)
                             .font(.title3)
                         Text("Your card will be automatically added")
                             .font(.subheadline)
+                            .foregroundStyle(.white)
                     }
                 }
                 .padding(.horizontal)

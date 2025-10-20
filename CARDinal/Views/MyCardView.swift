@@ -11,12 +11,17 @@ struct MyCardView: View {
     @EnvironmentObject var store: CardStore
     @State private var showEdit = false
     @State private var showQR = false
+    @State private var showDetail = false
 
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
                 GlassCardView(card: store.myCard)
+                    .tiltable()
                     .padding(.top, 40)
+                    .onTapGesture {
+                        showDetail = true
+                    }
                     .overlay(alignment: .topTrailing) {
                         HStack(spacing: 12) {
                             Button { showQR = true } label: { Image(systemName: "qrcode") }
@@ -33,10 +38,10 @@ struct MyCardView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Share")
                         .font(.headline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.gray)
                     Text("Show your QR code so someone can scan it and instantly add your card.")
                         .font(.footnote)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.gray)
                     Button {
                         showQR = true
                     } label: {
@@ -50,8 +55,18 @@ struct MyCardView: View {
                 Spacer(minLength: 20)
             }
         }
-        .sheet(isPresented: $showEdit) { EditCardView().environmentObject(store) }
-        .sheet(isPresented: $showQR) { QRCodeShareView(card: store.myCard) }
+        .sheet(isPresented: $showEdit) {
+            EditCardView()
+                .environmentObject(store)
+                .preferredColorScheme(.dark)
+        }
+        .sheet(isPresented: $showQR) {
+            QRCodeShareView(card: store.myCard)
+                .preferredColorScheme(.dark)
+        }
+        .navigationDestination(isPresented: $showDetail) {
+            CardDetailView(card: store.myCard, isMyCard: true)
+        }
         .background(BackgroundGradient())
         .navigationTitle("My Card")
     }

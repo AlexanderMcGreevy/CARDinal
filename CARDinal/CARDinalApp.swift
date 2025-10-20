@@ -11,11 +11,40 @@ import SwiftUI
 @main
 struct CARDinalApp: App {
     @StateObject private var cardStore = CardStore()
-    
+
+    init() {
+        // Force dark mode appearance for all UI elements
+        UITextField.appearance().keyboardAppearance = .dark
+        UITextView.appearance().keyboardAppearance = .dark
+
+        // Force navigation bar to dark mode
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        navBarAppearance.backgroundColor = UIColor(white: 0.05, alpha: 1.0)
+        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().standardAppearance = navBarAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+        UINavigationBar.appearance().compactAppearance = navBarAppearance
+
+        // Force tab bar to dark mode
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.backgroundColor = UIColor(white: 0.05, alpha: 1.0)
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+
+        // Force all text to white by default
+        UILabel.appearance().textColor = .white
+        UITextView.appearance().textColor = .white
+        UITextField.appearance().textColor = .white
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(cardStore)
+                .preferredColorScheme(.dark)
                 .onOpenURL { url in
                     handleDeepLink(url)
                 }

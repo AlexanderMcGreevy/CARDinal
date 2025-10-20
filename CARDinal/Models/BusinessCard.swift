@@ -71,7 +71,7 @@ struct BusinessCard: Identifiable, Codable, Hashable {
         textColor: Color = .black,
         profileImageData: Data? = nil,
         role: String = "",
-        material: CardMaterial = .standard,
+        material: CardMaterial = .glass,
         resumeData: Data? = nil,
         resumeFileName: String? = nil
     ) {
@@ -108,30 +108,36 @@ struct BusinessCard: Identifiable, Codable, Hashable {
     }
 
     var hasResume: Bool {
-        return !resumeURL.isEmpty
+        return resumeData != nil || !resumeURL.isEmpty
     }
 }
 
 enum CardMaterial: String, CaseIterable, Codable {
-    case standard = "Standard"
-    case premium = "Premium"
-    case luxury = "Luxury"
-    case eco = "Eco-Friendly"
+    case glass = "Glass"
+    case neon = "Neon"
+    case metal = "Metal"
+    case frosted = "Frosted"
+    case holographic = "Holographic"
+    case matte = "Matte"
 
     var displayName: String {
         return rawValue
     }
-    
+
     var icon: String {
         switch self {
-        case .standard:
-            return "rectangle"
-        case .premium:
+        case .glass:
+            return "sparkles"
+        case .neon:
+            return "light.beacon.max"
+        case .metal:
+            return "circle.hexagongrid.fill"
+        case .frosted:
+            return "cloud.fill"
+        case .holographic:
+            return "wand.and.stars"
+        case .matte:
             return "rectangle.fill"
-        case .luxury:
-            return "sparkles.rectangle.stack"
-        case .eco:
-            return "leaf"
         }
     }
 }
@@ -200,7 +206,7 @@ extension BusinessCard {
         resumeURL = try container.decode(String.self, forKey: .resumeURL)
         profileImageData = try container.decodeIfPresent(Data.self, forKey: .profileImageData)
         role = try container.decodeIfPresent(String.self, forKey: .role) ?? ""
-        material = try container.decodeIfPresent(CardMaterial.self, forKey: .material) ?? .standard
+        material = try container.decodeIfPresent(CardMaterial.self, forKey: .material) ?? .glass
         resumeData = try container.decodeIfPresent(Data.self, forKey: .resumeData)
         resumeFileName = try container.decodeIfPresent(String.self, forKey: .resumeFileName)
 

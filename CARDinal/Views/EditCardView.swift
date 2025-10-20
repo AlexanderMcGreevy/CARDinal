@@ -15,6 +15,7 @@ struct EditCardView: View {
     @State private var draft: BusinessCard = BusinessCard()
     @State private var color: Color = .cyan
     @State private var showingDocumentPicker = false
+    @State private var showingPDFViewer = false
 
     var body: some View {
         NavigationStack {
@@ -69,6 +70,15 @@ struct EditCardView: View {
                                     .foregroundStyle(.secondary)
                             }
                             Spacer()
+
+                            if draft.resumeData != nil {
+                                Button("View") {
+                                    showingPDFViewer = true
+                                }
+                                .buttonStyle(.borderless)
+                                .foregroundStyle(.blue)
+                            }
+
                             Button("Remove") {
                                 draft.resumeData = nil
                                 draft.resumeFileName = nil
@@ -111,7 +121,7 @@ struct EditCardView: View {
                     Button("Save") {
                         var updated = draft
                         updated.accentColorHex = color.toHex()
-                        store.myCard = updated
+                        store.updateMyCard(updated)
                         dismiss()
                     }
                     .fontWeight(.semibold)
@@ -127,6 +137,16 @@ struct EditCardView: View {
                 allowsMultipleSelection: false
             ) { result in
                 handleDocumentSelection(result)
+            }
+            .sheet(isPresented: $showingPDFViewer) {
+                Group {
+                    if let resumeData = draft.resumeData {
+                        PDFViewer(pdfData: resumeData, fileName: draft.resumeFileName ?? "Resume.pdf")
+                            .preferredColorScheme(.dark)
+                    } else {
+                        EmptyView()
+                    }
+                }
             }
         }
     }

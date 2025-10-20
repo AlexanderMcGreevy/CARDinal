@@ -110,12 +110,17 @@ struct SettingsView: View {
                 
                 // MARK: - Data Management Section
                 Section("Data Management") {
+                    Button("Add Sample Cards") {
+                        store.addSampleCards()
+                    }
+                    .foregroundStyle(.blue)
+
                     Button("Clear Received Cards") {
                         store.receivedCards.removeAll()
                         store.saveReceivedCards()
                     }
                     .foregroundStyle(.orange)
-                    
+
                     Button("Reset My Card") {
                         store.myCard = BusinessCard()
                         store.saveMyCard()

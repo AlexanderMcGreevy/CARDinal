@@ -30,11 +30,11 @@ struct ReceivedCardsView: View {
                         Image(systemName: "tray")
                             .font(.system(size: 48))
                             .symbolVariant(.slash)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(.gray)
                         Text(search.isEmpty ? "No cards yet" : "No matches")
                             .font(.headline)
-                            .foregroundStyle(.secondary)
-                        if search.isEmpty { Text("Scan someone's QR to add their card.").font(.footnote).foregroundStyle(.secondary) }
+                            .foregroundStyle(.white)
+                        if search.isEmpty { Text("Scan someone's QR to add their card.").font(.footnote).foregroundStyle(.gray) }
                         Button { showScanner = true } label: { Label("Scan QR", systemImage: "qrcode.viewfinder") }
                             .buttonStyle(.borderedProminent)
                     }
@@ -71,6 +71,7 @@ struct ReceivedCardsView: View {
                     case .failure: break
                     }
                 }
+                .preferredColorScheme(.dark)
             }
             .background(LinearGradient(colors: [Color.black, Color(white: 0.12)], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
         }

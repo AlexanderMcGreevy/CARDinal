@@ -18,6 +18,8 @@ struct ContentView: View {
                 .tabItem { Label("My Card", systemImage: "person.crop.square") }
             NavigationStack { ReceivedCardsView() }
                 .tabItem { Label("Received", systemImage: "tray.full") }
+            NavigationStack { NearbyUsersView() }
+                .tabItem { Label("Nearby", systemImage: "bird.fill") }
             NavigationStack { SettingsView() }
                 .tabItem { Label("Settings", systemImage: "gearshape") }
         }

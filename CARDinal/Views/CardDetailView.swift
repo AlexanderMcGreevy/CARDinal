@@ -10,16 +10,19 @@ import SwiftUI
 
 struct CardDetailView: View {
     let card: BusinessCard
+    var isMyCard: Bool = false
     @Environment(\.openURL) private var openURL
     @State private var showingShareSheet = false
+    @State private var showingPDFViewer = false
 
     var body: some View {
         ScrollView {
             VStack(spacing: 28) {
                 GlassCardView(card: card)
+                    .tiltable()
                     .padding(.top, 32)
                 
-                if !card.resumeURL.isEmpty {
+                if card.resumeData != nil || !card.resumeURL.isEmpty {
                     resumeSection
                 }
                 
@@ -40,19 +43,30 @@ struct CardDetailView: View {
                 Image(systemName: "doc.text.fill")
                     .foregroundStyle(.blue)
                     .font(.title2)
-                
+
                 VStack(alignment: .leading) {
                     Text("Resume Available")
                         .font(.headline)
-                    Text("View or download their resume")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.white)
+                    if let fileName = card.resumeFileName {
+                        Text(fileName)
+                            .font(.caption)
+                            .foregroundStyle(.gray)
+                    } else {
+                        Text("View or download their resume")
+                            .font(.caption)
+                            .foregroundStyle(.gray)
+                    }
                 }
-                
+
                 Spacer()
-                
+
                 Button("View") {
-                    if let url = URL(string: card.resumeURL) {
+                    if card.resumeData != nil {
+                        // Show in-app PDF viewer
+                        showingPDFViewer = true
+                    } else if let url = URL(string: card.resumeURL) {
+                        // Open external URL
                         openURL(url)
                     }
                 }
@@ -60,6 +74,16 @@ struct CardDetailView: View {
             }
             .padding()
             .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+        }
+        .sheet(isPresented: $showingPDFViewer) {
+            Group {
+                if let resumeData = card.resumeData {
+                    PDFViewer(pdfData: resumeData, fileName: card.resumeFileName ?? "Resume.pdf")
+                        .preferredColorScheme(.dark)
+                } else {
+                    EmptyView()
+                }
+            }
         }
     }
     
@@ -117,6 +141,7 @@ struct CardDetailView: View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Contact Information")
                 .font(.headline)
+                .foregroundStyle(.white)
                 .padding(.horizontal)
             
             VStack(spacing: 12) {
@@ -172,15 +197,16 @@ struct ContactRow: View {
     var body: some View {
         HStack {
             Image(systemName: icon)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.gray)
                 .frame(width: 20)
-            
+
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.gray)
                 Text(value)
                     .font(.body)
+                    .foregroundStyle(.white)
             }
             
             Spacer()
