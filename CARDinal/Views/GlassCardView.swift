@@ -7,6 +7,24 @@
 
 import SwiftUI
 
+struct NoiseGrain: View {
+    var opacity: Double = 0.05   // keep it tiny
+    var body: some View {
+        Canvas { ctx, size in
+            let count = Int((size.width * size.height) / 800) // density
+            for _ in 0..<count {
+                let x = CGFloat.random(in: 0..<size.width)
+                let y = CGFloat.random(in: 0..<size.height)
+                let r = CGFloat.random(in: 0.2...1.2)
+                var rect = Path(ellipseIn: .init(x: x, y: y, width: r, height: r))
+                ctx.fill(rect, with: .color(.black.opacity(opacity)))
+            }
+        }
+        .blendMode(.softLight)
+        .allowsHitTesting(false)
+    }
+}
+
 struct GlassCardView: View {
     let card: BusinessCard
     var compact: Bool = false
@@ -148,7 +166,7 @@ struct MaterialBackground: View {
                         startPoint: .top,
                         endPoint: .bottom
                     )
-                )
+                ).overlay(NoiseGrain(opacity: 50))
         case .frosted:
             Rectangle()
                 .fill(.thickMaterial)
@@ -195,7 +213,8 @@ struct MaterialBackground: View {
         company: "Tech Corp",
         email: "john@techcorp.com",
         phone: "+1 (555) 123-4567",
-        resumeURL: "https://johndoe.com/resume"
+        resumeURL: "https://johndoe.com/resume",
+        material: .metal
     ))
     .padding()
 }
